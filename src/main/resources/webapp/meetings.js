@@ -12,7 +12,7 @@ $(function() {
         lang : 'ru',
         minTime : '10:00',
         maxTime : '21:00',
-        height : 750,
+        height : 737,
         displayEventEnd : true
     };
     
@@ -49,6 +49,9 @@ $(function() {
                     type : 'GET',
                     error: function() {
                         showLoading(calId, true);
+                        $("#"+calId).oneTime("20s", function() {
+                            $(this).fullCalendar('refetchEvents');
+                        });
                     },
                     success: function() {
                         showLoading(calId, false);
@@ -59,7 +62,7 @@ $(function() {
             $.extend(opts, calOptions);
 
             $("#meetings_holder").append($($.templates("#tpl-room").render(opts.room_data)));
-            $("#" + calId).fullCalendar(opts).everyTime("30s", function() {
+            $("#" + calId).fullCalendar(opts).everyTime("60s", function() {
                 var cal = $(this);
                 if (!cal.fullCalendar('getDate').stripTime().isSame(moment().stripTime())) {
                     cal.fullCalendar('today');
