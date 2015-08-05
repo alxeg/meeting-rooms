@@ -42,7 +42,7 @@ public class RoomService implements BeanNameAware {
 
     @Value("${exchange.url}")
     private String url;
-
+    
     private String roomId;
 
     private String login;
@@ -100,7 +100,7 @@ public class RoomService implements BeanNameAware {
             ExchangeService service = null;
             try {
                 service = login();
-                NameResolutionCollection resolutionCollection = service.resolveName(login + "@ncloudtech.ru");
+                NameResolutionCollection resolutionCollection = service.resolveName(login);
                 if (resolutionCollection.getCount() > 0) {
                     NameResolution nameResolution = resolutionCollection.nameResolutionCollection(0);
                     if (nameResolution.getContact() != null) {
