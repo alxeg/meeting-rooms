@@ -3,6 +3,7 @@ dist/
 !.gitkeep
 node_modules/
 bower_components/
+target/*
 tmp
 .DS_Store
 .idea
@@ -10,3 +11,4 @@ tmp
 .project
 .springBeans
 .classpath
+/target/
