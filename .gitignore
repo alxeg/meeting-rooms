@@ -12,3 +12,4 @@ tmp
 .springBeans
 .classpath
 /target/
+application.properties
