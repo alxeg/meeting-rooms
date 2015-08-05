@@ -1,0 +1,28 @@
+#meetings_holder {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.room_title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.room_container {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.room_calendar {
+    width: 300px;
+    max-height: 100%;
+    margin: 0 auto;
+}
+
+.fc-widget-content {
+    height: 30px !important;
+}
+
+.fc-toolbar {
+    display: none
+}

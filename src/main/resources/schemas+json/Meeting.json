@@ -1,0 +1,20 @@
+{
+    "id":"Meeting",
+    "type":"object",
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "subject": {
+            "type": "string"
+        },
+        "start": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "end": {
+            "type": "string",
+            "format": "date-time"
+        }
+      }
+}

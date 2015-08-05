@@ -1,0 +1,18 @@
+{
+  "name": "flibooks-client",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "app/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "fullcalendar": "~2.x.x",
+    "jsrender": "~1.x.x",
+    "css-spinners": "~2.1.0"
+  }
+}
