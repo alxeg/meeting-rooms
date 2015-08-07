@@ -51,6 +51,8 @@ public class RoomService implements BeanNameAware {
 
     private String domain;
 
+    private String name;
+
     private boolean configured;
 
     private Room room;
@@ -73,6 +75,7 @@ public class RoomService implements BeanNameAware {
         login = appProperties.get("exchange." + roomId + ".login");
         password = appProperties.get("exchange." + roomId + ".password");
         domain = appProperties.get("exchange." + roomId + ".domain");
+        name = appProperties.get("exchange." + roomId + ".name");
 
         ExchangeService service = null;
 
@@ -97,28 +100,35 @@ public class RoomService implements BeanNameAware {
 
     public Room getRoom() {
         if (room == null) {
-            ExchangeService service = null;
-            try {
-                service = login();
-                NameResolutionCollection resolutionCollection = service.resolveName(login);
-                if (resolutionCollection.getCount() > 0) {
-                    NameResolution nameResolution = resolutionCollection.nameResolutionCollection(0);
-                    if (nameResolution.getContact() != null) {
-                        return new Room()
-                            .withId(roomId)
-                            .withName(nameResolution.getContact().getCompleteName().toString());
+            if (name != null) {
+                return new Room()
+                    .withId(roomId)
+                    .withName(name);
+            } else {
+                // try to retrieve it from exchange
+                ExchangeService service = null;
+                try {
+                    service = login();
+                    NameResolutionCollection resolutionCollection = service.resolveName(login);
+                    if (resolutionCollection.getCount() > 0) {
+                        NameResolution nameResolution = resolutionCollection.nameResolutionCollection(0);
+                        if (nameResolution.getContact() != null) {
+                            return new Room()
+                                .withId(roomId)
+                                .withName(nameResolution.getContact().getCompleteName().toString());
 
-                    } else if (nameResolution.getMailbox() != null) {
-                        return new Room()
-                            .withId(roomId)
-                            .withName(nameResolution.getMailbox().getName());
+                        } else if (nameResolution.getMailbox() != null) {
+                            return new Room()
+                                .withId(roomId)
+                                .withName(nameResolution.getMailbox().getName());
+                        }
                     }
+                } catch (Throwable ex) {
+                    LOGGER.error("Failed to get room info {}", login, ex);
+                    configured = false;
+                } finally {
+                    IOUtils.closeQuietly(service);
                 }
-            } catch (Throwable ex) {
-                LOGGER.error("Failed to get room info {}", login, ex);
-                configured = false;
-            } finally {
-                IOUtils.closeQuietly(service);
             }
             return new Room()
                 .withId(roomId)
