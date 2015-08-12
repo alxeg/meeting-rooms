@@ -16,6 +16,10 @@ $(function() {
         displayEventEnd : true
     };
     
+    function updateTime() {
+        $('#current-time').text(moment().format("HH:mm"));
+    }
+    
     function showLoading(elementId, show) {
         var loadingId = elementId+"_load";
         $("#"+loadingId).remove();
@@ -72,5 +76,11 @@ $(function() {
             });
         });
     });
+    
 
+    $("#current-time").everyTime("10s", function() {
+        updateTime();
+    });
+    
+    updateTime();
 });

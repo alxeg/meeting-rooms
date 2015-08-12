@@ -1,28 +1,102 @@
-#meetings_holder {
-    margin: 0 auto;
+body {
+    font-family: Segoe UI, sans-serif;
+    margin: auto;
+    padding: 0 20px;
+    height: 750px;
+}
+
+
+#current-time {
+    font-size: 50px;
     text-align: center;
+    margin-top: 50px;
+}
+
+#meetings_holder {
+    display: flex;
+    margin: 0 auto;
+}
+
+.calendar-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 14px 0;
+}
+
+.calendar-title:after {
+    content: "Коллеги, бронируйте переговорки заранее!";
+    display: block;
+}
+
+.calendar-legend {
+    list-style: none;
+    padding: 0;
+}
+
+.calendar-legend > li {
+    margin-bottom: 1em;
+}
+
+.calendar-legend > li:first-letter {
+    font-size: 22px;
+    font-weight: 500;
 }
 
 .room_title {
+    font-size: 13px;
+    margin: .4em 0 .5em;
     text-align: center;
-    font-weight: bold;
+}
+
+.room_title:first-letter {
+    font-size: 15px;
+    font-weight: 500;
 }
 
 .room_container {
-    display: inline-block;
     margin-right: 20px;
+    max-height: 100%;
+}
+
+.room_container:last-child {
+    margin:0;
 }
 
 .room_calendar {
-    width: 300px;
+    width: auto;
     max-height: 100%;
     margin: 0 auto;
+    height: 100%;
 }
 
 .fc-widget-content {
-    height: 30px !important;
+    height: 26px !important;
 }
 
 .fc-toolbar {
     display: none
 }
+
+.fc th {
+    font-weight: 500;
+}
+
+.fc-unthemed .fc-today {
+    background-color: transparent
+}
+
+.fc-event {
+    background-color: rgb(147, 118, 209);
+    border: 1px solid rgba(149, 118, 214, 0.1);
+}
+
+
+.fc-ltr .fc-time-grid .fc-event-container {
+    margin: 1px;
+}
+
+.fc-time-grid-container, .fc-time-grid {
+    height: auto!important;
+    overflow:visible;
+}
+
