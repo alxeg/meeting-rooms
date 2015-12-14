@@ -45,7 +45,8 @@ $(function() {
             var opts = {
                 room_data : {
                     id : calId,
-                    title : room.name
+                    title : room.name,
+                    description : room.description
                 },
 
                 eventSources : [ {
@@ -74,6 +75,8 @@ $(function() {
                     cal.fullCalendar('refetchEvents');
                 }
             });
+            $("#cal_legend").append($($.templates("#tpl-legend").render(opts.room_data)));
+            
         });
     });
     

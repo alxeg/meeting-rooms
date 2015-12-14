@@ -53,9 +53,12 @@ public class RoomService implements BeanNameAware {
 
     private String name;
 
+    private String description;
+
     private boolean configured;
 
     private Room room;
+
 
     public boolean isConfigured() {
         return configured;
@@ -76,6 +79,7 @@ public class RoomService implements BeanNameAware {
         password = appProperties.get("exchange." + roomId + ".password");
         domain = appProperties.get("exchange." + roomId + ".domain");
         name = appProperties.get("exchange." + roomId + ".name");
+        description = appProperties.get("exchange." + roomId + ".description");
 
         ExchangeService service = null;
 
@@ -103,7 +107,8 @@ public class RoomService implements BeanNameAware {
             if (name != null) {
                 return new Room()
                     .withId(roomId)
-                    .withName(name);
+                    .withName(name)
+                    .withDescription(description);
             } else {
                 // try to retrieve it from exchange
                 ExchangeService service = null;
@@ -115,12 +120,14 @@ public class RoomService implements BeanNameAware {
                         if (nameResolution.getContact() != null) {
                             return new Room()
                                 .withId(roomId)
-                                .withName(nameResolution.getContact().getCompleteName().toString());
+                                .withName(nameResolution.getContact().getCompleteName().toString())
+                                .withDescription(description);
 
                         } else if (nameResolution.getMailbox() != null) {
                             return new Room()
                                 .withId(roomId)
-                                .withName(nameResolution.getMailbox().getName());
+                                .withName(nameResolution.getMailbox().getName())
+                                .withDescription(description);
                         }
                     }
                 } catch (Throwable ex) {
@@ -132,7 +139,8 @@ public class RoomService implements BeanNameAware {
             }
             return new Room()
                 .withId(roomId)
-                .withName(login);
+                .withName(login)
+                .withDescription(description);
         } else {
             return room;
         }

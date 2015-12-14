@@ -27,6 +27,7 @@ public class PropertiesConfig {
         PropertiesFactoryBean bean = new PropertiesFactoryBean();
         bean.setIgnoreResourceNotFound(true);
         bean.setLocations(propertiesLocations());
+        bean.setFileEncoding("UTF-8");
         bean.setSingleton(false);
         return bean;
     }

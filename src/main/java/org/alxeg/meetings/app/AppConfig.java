@@ -81,5 +81,14 @@ public class AppConfig extends WebMvcConfigurerAdapter {
     public RoomService room3() {
         return new RoomService();
     }
+    @Bean
+    public RoomService room4() {
+        return new RoomService();
+    }
+    @Bean
+    public RoomService room5() {
+        return new RoomService();
+    }
+
 }
 
