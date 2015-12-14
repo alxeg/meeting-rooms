@@ -42,7 +42,7 @@ public class RoomService implements BeanNameAware {
 
     @Value("${exchange.url}")
     private String url;
-    
+
     private String roomId;
 
     private String login;
@@ -104,43 +104,41 @@ public class RoomService implements BeanNameAware {
 
     public Room getRoom() {
         if (room == null) {
-            if (name != null) {
-                return new Room()
-                    .withId(roomId)
-                    .withName(name)
-                    .withDescription(description);
-            } else {
-                // try to retrieve it from exchange
-                ExchangeService service = null;
-                try {
-                    service = login();
-                    NameResolutionCollection resolutionCollection = service.resolveName(login);
-                    if (resolutionCollection.getCount() > 0) {
-                        NameResolution nameResolution = resolutionCollection.nameResolutionCollection(0);
-                        if (nameResolution.getContact() != null) {
-                            return new Room()
-                                .withId(roomId)
-                                .withName(nameResolution.getContact().getCompleteName().toString())
-                                .withDescription(description);
+            // try to retrieve it from exchange
+            Room result = null;
+            
+            ExchangeService service = null;
+            try {
+                service = login();
+                NameResolutionCollection resolutionCollection = service.resolveName(login);
+                if (resolutionCollection.getCount() > 0) {
+                    NameResolution nameResolution = resolutionCollection.nameResolutionCollection(0);
+                    if (nameResolution.getContact() != null) {
+                        result = new Room()
+                            .withId(roomId)
+                            .withName(nameResolution.getContact().getCompleteName().toString())
+                            .withDescription(description);
 
-                        } else if (nameResolution.getMailbox() != null) {
-                            return new Room()
-                                .withId(roomId)
-                                .withName(nameResolution.getMailbox().getName())
-                                .withDescription(description);
-                        }
+                    } else if (nameResolution.getMailbox() != null) {
+                        result = new Room()
+                            .withId(roomId)
+                            .withName(nameResolution.getMailbox().getName())
+                            .withDescription(description);
                     }
-                } catch (Throwable ex) {
-                    LOGGER.error("Failed to get room info {}", login, ex);
-                    configured = false;
-                } finally {
-                    IOUtils.closeQuietly(service);
                 }
+            } catch (Throwable ex) {
+                LOGGER.error("Failed to get room info {}", login, ex);
+                configured = false;
+            } finally {
+                IOUtils.closeQuietly(service);
             }
-            return new Room()
-                .withId(roomId)
-                .withName(login)
-                .withDescription(description);
+
+            if (name != null) {
+                result.setName(name);
+            }
+            
+            return result;
+            
         } else {
             return room;
         }
@@ -154,7 +152,7 @@ public class RoomService implements BeanNameAware {
             CalendarFolder cf = CalendarFolder.bind(service, WellKnownFolderName.Calendar);
             CalendarView cv = new CalendarView(startDate, endDate);
             cv.setPropertySet(new PropertySet(AppointmentSchema.Start, AppointmentSchema.End, AppointmentSchema.Subject,
-                                              AppointmentSchema.Organizer, AppointmentSchema.AppointmentState, 
+                                              AppointmentSchema.Organizer, AppointmentSchema.AppointmentState,
                                               AppointmentSchema.StartTimeZone, AppointmentSchema.EndTimeZone, AppointmentSchema.TimeZone));
             FindItemsResults<Appointment> findResults = cf.findAppointments(cv);
             return meetingAdapter.meetingListFromAppointments(
