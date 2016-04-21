@@ -4,11 +4,17 @@ import org.alxeg.meetings.models.Meeting;
 import org.alxeg.meetings.models.Room;
 import org.alxeg.meetings.services.RoomService;
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.ParseException;
@@ -22,9 +28,18 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping(value = "/api")
 public class ApiController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiController.class);
 
     @Autowired
     private Map<String, RoomService> rooms;
+
+    @ExceptionHandler(Throwable.class)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    ResponseEntity<ErrorResponse> handleException(Throwable e) {
+        LOGGER.error("Exception occured: {}", e.getMessage());
+        return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 
     @RequestMapping("rooms")
     @ResponseBody

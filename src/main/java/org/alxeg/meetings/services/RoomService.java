@@ -127,13 +127,13 @@ public class RoomService implements BeanNameAware {
                     }
                 }
             } catch (Throwable ex) {
-                LOGGER.error("Failed to get room info {}", login, ex);
+                LOGGER.error("Failed to get room info {}", login);
                 configured = false;
             } finally {
                 IOUtils.closeQuietly(service);
             }
 
-            if (name != null) {
+            if (name != null && result != null) {
                 result.setName(name);
             }
             
