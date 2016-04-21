@@ -37,7 +37,9 @@ public class ApiController {
     @ResponseBody
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     ResponseEntity<ErrorResponse> handleException(Throwable e) {
-        LOGGER.error("Exception occured: {}", e.getMessage());
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.error("Exception occured", e);
+        }
         return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
