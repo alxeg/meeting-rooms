@@ -36,14 +36,16 @@ public class AppConfig extends WebMvcConfigurerAdapter {
         objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         objectMapper.registerModule(new JodaModule());
-        objectMapper.setDateFormat(StdDateFormat.getISO8601Format(TimeZone.getDefault(), Locale.getDefault()));
+        objectMapper.setDateFormat(new StdDateFormat().getISO8601Format(TimeZone.getDefault(), Locale.getDefault()));
         return objectMapper;
     }
 
     @Bean
     public MappingJackson2HttpMessageConverter jsonMessageConverter() {
         MappingJackson2HttpMessageConverter messageConverter = new MappingJackson2HttpMessageConverter(objectMapper());
-        messageConverter.setSupportedMediaTypes(MediaType.parseMediaTypes("application/json"));
+        messageConverter.setSupportedMediaTypes(MediaType.parseMediaTypes(
+                  "application/json,"+
+                  "application/vnd.spring-boot.actuator.v1+json;q=0.8"));
         return messageConverter;
     }
 

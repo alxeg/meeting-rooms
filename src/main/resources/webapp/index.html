@@ -2,16 +2,17 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
     <title>Meeting Rooms</title>
     
-    <link rel='stylesheet' href='bower_components/fullcalendar/dist/fullcalendar.css' />
-    <link rel='stylesheet' href='bower_components/css-spinners/css/spinners.css' />
+    <link rel='stylesheet' href='node_modules/fullcalendar/dist/fullcalendar.css' />
+    <link rel='stylesheet' href='node_modules/csspin/csspin.css' />
 
-    <script src='bower_components/moment/min/moment.min.js'></script>
-    <script src='bower_components/jquery/dist/jquery.min.js'></script>
-    <script src='bower_components/fullcalendar/dist/fullcalendar.js'></script>
-    <script src='bower_components/fullcalendar/dist/lang/ru.js'></script>
-    <script src='bower_components/jsrender/jsrender.min.js'></script>
+    <script src='node_modules/moment/min/moment.min.js'></script>
+    <script src='node_modules/jquery/dist/jquery.min.js'></script>
+    <script src='node_modules/fullcalendar/dist/fullcalendar.js'></script>
+    <script src='node_modules/fullcalendar/dist/locale/ru.js'></script>
+    <script src='node_modules/jsrender/jsrender.min.js'></script>
     <script src='jquery.timers.min.js'></script>
     
     <script id="tpl-room" type="text/x-jsrender">
@@ -21,8 +22,7 @@
         </div>
     </script>
     <script id="tpl-loading" type="text/x-jsrender">
-        <div id="{{:id}}" class="spinner-loader" style="position: absolute; left: {{:x}}px; top: {{:y}}px; z-index:999">
-            Loading...
+        <div id="{{:id}}" class="cp-spinner cp-meter" style="position: absolute; left: {{:x}}px; top: {{:y}}px; z-index:999">
         </div>
     </script>
     <script id="tpl-legend" type="text/x-jsrender">

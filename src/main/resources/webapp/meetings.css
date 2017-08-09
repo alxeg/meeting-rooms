@@ -70,6 +70,7 @@ body {
 }
 
 .fc-widget-content {
+    background: #fff;
     height: 26px !important;
 }
 

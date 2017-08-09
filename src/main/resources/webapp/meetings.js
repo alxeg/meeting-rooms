@@ -9,11 +9,13 @@ $(function() {
         editable : false,
         defaultView : 'agendaDay',
         allDaySlot : false,
-        lang : 'ru',
+        locale : 'ru',
         minTime : '10:00',
         maxTime : '21:00',
         height : 737,
-        displayEventEnd : true
+        displayEventEnd : true,
+        nowIndicator: true,
+        timezone: 'local'
     };
     
     function updateTime() {
