@@ -101,3 +101,12 @@ body {
     overflow:visible;
 }
 
+.fc-now-indicator {
+    position: absolute;
+    border: 0 solid red;
+}
+
+.fc-time-grid .fc-now-indicator-line {
+    border-top-width: 1px;
+}
+
