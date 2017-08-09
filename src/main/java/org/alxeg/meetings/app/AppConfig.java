@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.util.StdDateFormat;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 
 import org.alxeg.meetings.services.RoomService;
+import org.alxeg.meetings.services.RoomServiceEws;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -73,23 +74,23 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 
     @Bean
     public RoomService room1() {
-        return new RoomService();
+        return new RoomServiceEws();
     }
     @Bean
     public RoomService room2() {
-        return new RoomService();
+        return new RoomServiceEws();
     }
     @Bean
     public RoomService room3() {
-        return new RoomService();
+        return new RoomServiceEws();
     }
     @Bean
     public RoomService room4() {
-        return new RoomService();
+        return new RoomServiceEws();
     }
     @Bean
     public RoomService room5() {
-        return new RoomService();
+        return new RoomServiceEws();
     }
 
 }
