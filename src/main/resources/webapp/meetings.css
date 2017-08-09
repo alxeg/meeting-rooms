@@ -107,6 +107,6 @@ body {
 }
 
 .fc-time-grid .fc-now-indicator-line {
-    border-top-width: 1px;
+    border-top-width: 0px;
 }
 
