@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.net.URI;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,12 +21,14 @@ import javax.annotation.PostConstruct;
 import microsoft.exchange.webservices.data.core.ExchangeService;
 import microsoft.exchange.webservices.data.core.PropertySet;
 import microsoft.exchange.webservices.data.core.enumeration.misc.ExchangeVersion;
+import microsoft.exchange.webservices.data.core.enumeration.misc.TraceFlags;
 import microsoft.exchange.webservices.data.core.enumeration.property.WellKnownFolderName;
 import microsoft.exchange.webservices.data.core.service.folder.CalendarFolder;
 import microsoft.exchange.webservices.data.core.service.item.Appointment;
 import microsoft.exchange.webservices.data.core.service.schema.AppointmentSchema;
 import microsoft.exchange.webservices.data.credential.ExchangeCredentials;
 import microsoft.exchange.webservices.data.credential.WebCredentials;
+import microsoft.exchange.webservices.data.misc.ITraceListener;
 import microsoft.exchange.webservices.data.misc.NameResolution;
 import microsoft.exchange.webservices.data.misc.NameResolutionCollection;
 import microsoft.exchange.webservices.data.search.CalendarView;
@@ -42,6 +45,9 @@ public class RoomServiceEws implements BeanNameAware, RoomService {
 
     @Value("${exchange.url}")
     private String url;
+
+    @Value("${exchange.trace}")
+    private boolean trace;
 
     private String roomId;
 
@@ -63,7 +69,7 @@ public class RoomServiceEws implements BeanNameAware, RoomService {
     /* (non-Javadoc)
      * @see org.alxeg.meetings.services.RoomService#isConfigured()
      */
-        
+
     @Override
     public boolean isConfigured() {
         return configured;
@@ -104,13 +110,23 @@ public class RoomServiceEws implements BeanNameAware, RoomService {
         ExchangeCredentials credentials = new WebCredentials(login, password, domain);
         service.setCredentials(credentials);
         service.setUrl(URI.create(url));
+        if (trace) {
+            service.setTraceEnabled(true);
+            service.setTraceFlags(EnumSet.of(TraceFlags.EwsRequest, TraceFlags.EwsResponse));
+            service.setTraceListener(new ITraceListener() {
+                @Override
+                public void trace(String traceType, String traceMessage) {
+                    LOGGER.info("{} {}", traceType, traceMessage);
+                }
+            });
+        }
         return service;
     }
 
     /* (non-Javadoc)
      * @see org.alxeg.meetings.services.RoomService#getRoom()
      */
-        
+
     @Override
     public Room getRoom() {
         if (room == null) {
@@ -158,7 +174,7 @@ public class RoomServiceEws implements BeanNameAware, RoomService {
     /* (non-Javadoc)
      * @see org.alxeg.meetings.services.RoomService#getMeetings(java.util.Date, java.util.Date)
      */
-        
+
     @Override
     public List<Meeting> getMeetings(Date startDate, Date endDate) {
         ExchangeService service = null;
