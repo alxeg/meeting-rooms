@@ -7,12 +7,15 @@
     
     <link rel='stylesheet' href='node_modules/fullcalendar/dist/fullcalendar.css' />
     <link rel='stylesheet' href='node_modules/csspin/csspin.css' />
+    <link rel='stylesheet' href='node_modules/pikaday/css/pikaday.css' />
 
     <script src='node_modules/moment/min/moment.min.js'></script>
     <script src='node_modules/jquery/dist/jquery.min.js'></script>
     <script src='node_modules/fullcalendar/dist/fullcalendar.js'></script>
     <script src='node_modules/fullcalendar/dist/locale/ru.js'></script>
     <script src='node_modules/jsrender/jsrender.min.js'></script>
+    <script src='node_modules/pikaday/pikaday.js'></script>
+
     <script src='jquery.timers.min.js'></script>
     
     <script id="tpl-room" type="text/x-jsrender">
@@ -45,6 +48,7 @@
             <ul id="cal_legend" class="calendar-legend">
             </ul>
             <div id='current-time'></div>
+            <input style="font-size:15px;" type="text" id='select-date'></input>
         </div>
     </div>
 </body>

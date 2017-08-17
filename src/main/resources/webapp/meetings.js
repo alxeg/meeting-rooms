@@ -17,7 +17,15 @@ $(function() {
         nowIndicator: true,
         timezone: 'local'
     };
-    
+
+    var dateSelector = new Pikaday({
+        field: $('#select-date')[0],
+        format: "L",
+        onSelect: function (date) {
+           $('.room_calendar').fullCalendar('gotoDate', date);
+        }
+   });
+
     function updateTime() {
         $('#current-time').text(moment().format("HH:mm"));
     }
@@ -76,6 +84,7 @@ $(function() {
                 } else {
                     cal.fullCalendar('refetchEvents');
                 }
+                $("#select-date").val("");
             });
             $("#cal_legend").append($($.templates("#tpl-legend").render(opts.room_data)));
             
